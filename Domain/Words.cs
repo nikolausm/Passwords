@@ -16,13 +16,16 @@ namespace Domain
 
 		private static Func<List<string>> ReadFileToList(string fileName)
 		{
+			int words =0;
 			return () =>
 			{
-				using(var reader = new StreamReader(fileName))
+				using(var reader = new StreamReader(fileName, true))
 				{
+
 					var result = new List<string>();
 					while(reader.Peek() >= 0)
 					{
+						words++;
 						result.Add(reader.ReadLine());
 					}
 					return result;
@@ -35,8 +38,11 @@ namespace Domain
 			var hashSet = new HashSet<string>();
 			var random = new Random(Guid.NewGuid().GetHashCode());
 			var wordNumber = 0;
+			var maxTries = int.MaxValue;
+			var tries = 0;
 			do
 			{
+				tries++;
 				var randomNumber = random.Next();
 				if(randomNumber < _words.Value.Count)
 				{
@@ -64,8 +70,9 @@ namespace Domain
 					hashSet.Add(word);
 					wordNumber++;
 				}
+
 			}
-			while(hashSet.Count < count);
+			while(hashSet.Count < count && tries < maxTries);
 
 			return hashSet.ToArray();
 		}

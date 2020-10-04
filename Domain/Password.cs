@@ -20,27 +20,50 @@ namespace Domain
 			byte wordCount = 3,
 			byte minWordLength = 3,
 			byte maxWordLength = 7,
-			int maxTries = 1024
+			int maxTriesPerPassword = 256
 		)
 		{
-			
-			var words = _words;
+			if (maxTriesPerPassword < 1){
+				throw new ArgumentException("Maximum tries per password must be greater than 1.");
+			}
+			if (minWordLength < 3)
+			{
+				throw new ArgumentException("Minimum word length must be greater than 2.");
+			}
+			if (minWordLength > 7)
+			{
+				throw new ArgumentException("Minimum word length must be less than 7.");
+			}
+			if (maxWordLength > 12)
+			{
+				throw new ArgumentException("Maximum word length must be less than 12.");
+			}
+			if (maxWordLength < 3)
+			{
+				throw new ArgumentException("Minimum max word length must be greater than 2.");
+			}
+			if (minWordLength> maxWordLength)
+			{
+				throw new ArgumentException("Minimum word length must be greater than the maximum word length.");
+			}
+
 			int tries = 0;
 			var values = new ConcurrentDictionary<string, int>();
-			while (values.Count < count && tries < maxTries)
+			while (values.Count < count && tries < maxTriesPerPassword * count)
 			{
-				Parallel.For(
-					0,
-					4,
-					(index, state) => {
-						tries++;
-						values.TryAdd(
-							words.Values(wordCount, minWordLength, maxWordLength).ToString(" ")
-							+ " " + (new Numbers().Value())
-							+ (new SpecialCharacters().Value()),
-							tries
-						);
-					}
+				tries++;
+				values.TryAdd(
+					_words.Values(wordCount, minWordLength, 7).ToString(" ")
+					+ " " + (new Numbers().Value())
+					+ (new SpecialCharacters().Value()),
+					tries
+				);
+			}
+
+			if (maxTriesPerPassword * count == tries)
+			{
+				throw new InvalidOperationException(
+					"I was not able to generate all request passwords."
 				);
 			}
 
