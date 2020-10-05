@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Azure.Identity;
+using System;
 
 namespace SimpleUi
 {
@@ -25,10 +26,15 @@ namespace SimpleUi
 					{
 						builder.AddUserSecrets("Passwords");
 					}
-					var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
-					builder.AddAzureKeyVault(
-					keyVaultEndpoint,
-					new DefaultAzureCredential());
+
+					if (hostContext.HostingEnvironment.IsProduction())
+					{
+						var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+						builder.AddAzureKeyVault(
+							keyVaultEndpoint,
+							new DefaultAzureCredential()
+						);
+					}
 				}
 			).ConfigureWebHostDefaults(
 				webBuilder =>
