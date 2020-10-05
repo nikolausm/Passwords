@@ -20,6 +20,10 @@ app {
     flex-direction: column;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 .top-row {
     height: 3.5rem;
     display: flex;
