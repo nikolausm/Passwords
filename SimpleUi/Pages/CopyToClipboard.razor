@@ -10,6 +10,6 @@
 
 	private async Task CopyTextToClipboard()
 	{
-		await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", Text);
+		await JSRuntime.InvokeVoidAsync("copyToClipboard", Text);
 	}
 }
