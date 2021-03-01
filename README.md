@@ -22,4 +22,5 @@ Configuration["GetPasswords"] // The endpoint to get more than on password :).
 Website: https://miniconpasswords.azurewebsites.net/
 
 ![Azure Setup](https://github.com/nikolausm/Passwords/blob/master/azure.PNG)
+![Azure Secure](https://github.com/nikolausm/Passwords/blob/master/azure_secure.PNG)
 
