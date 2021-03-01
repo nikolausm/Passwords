@@ -8,3 +8,6 @@ Generate easy memorable german word based passwords with a default complexity of
 :)
 
 /passwords
+
+
+Website: https://miniconpasswords.azurewebsites.net/
