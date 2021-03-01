@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using Domain.Extensions;
 
 namespace Domain
 {
@@ -16,14 +17,16 @@ namespace Domain
 		}
 
 		public string[] Values(
-			int count = 3,
+			uint count = 3,
 			byte wordCount = 3,
 			byte minWordLength = 3,
 			byte maxWordLength = 7,
-			int maxTriesPerPassword = 256
+			uint maxTriesPerPassword = 512
 		)
 		{
-			if (maxTriesPerPassword < 1){
+			#region validation
+			if (maxTriesPerPassword < 1)
+			{
 				throw new ArgumentException("Maximum tries per password must be greater than 1.");
 			}
 			if (minWordLength < 3)
@@ -42,10 +45,11 @@ namespace Domain
 			{
 				throw new ArgumentException("Minimum max word length must be greater than 2.");
 			}
-			if (minWordLength> maxWordLength)
+			if (minWordLength > maxWordLength)
 			{
 				throw new ArgumentException("Minimum word length must be greater than the maximum word length.");
 			}
+			#endregion
 
 			int tries = 0;
 			var values = new ConcurrentDictionary<string, int>();
