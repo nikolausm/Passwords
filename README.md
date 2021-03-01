@@ -9,5 +9,14 @@ Generate easy memorable german word based passwords with a default complexity of
 
 /passwords
 
+# Technical parts
+
+This app is using the secret store to store all settings. So you have to set up the on you machine, too.
+
+```
+Configuration["BaseUrl"] // The base uri to the service.
+Configuration["GetPassword"] // The endpoint to get one password.
+Configuration["GetPasswords"] // The endpoint to get more than on password :).
+```
 
 Website: https://miniconpasswords.azurewebsites.net/
