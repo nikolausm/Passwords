@@ -21,26 +21,19 @@ namespace SimpleUi.Data
 				BaseAddress = new Uri(_settings.BaseUrl)
 			};
 		}
-		public Task<string[]> GetPasswordsAsync()
-		{
-			return Task.FromResult(
-				JsonConvert.DeserializeObject<string[]>(
-					_client.GetAsync(_settings.PasswordsPath)
-						.GetAwaiter().GetResult()
-						.Content.ReadAsStringAsync()
-						.GetAwaiter().GetResult()
-				)
-			);
 
-		}
-		public Task<string> GetPasswordAsync()
-		{
-			return Task.FromResult(
-				_client.GetAsync(_settings.PasswordsPath)
-					.GetAwaiter().GetResult()
-					.Content.ReadAsStringAsync()
-					.GetAwaiter().GetResult()
-			);
-		}
+		public async Task<string[]> GetPasswordsAsync()
+		=> JsonConvert.DeserializeObject<string[]>(
+			await (await _client.GetAsync(_settings.PasswordsPath))
+				.Content
+				.ReadAsStringAsync()
+		);
+
+		public async Task<string[]> GetPasswordAsync()
+		=> JsonConvert.DeserializeObject<string[]>(
+			await (await _client.GetAsync(_settings.PasswordsPath))
+				.Content
+				.ReadAsStringAsync()
+		);
 	}
 }

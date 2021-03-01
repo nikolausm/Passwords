@@ -22,23 +22,22 @@ namespace AzureFunction
 		)
 		{
 			log.LogInformation("C# HTTP trigger function processed a request.");
-
-			var result = new Password(
-				new Words(
-					Path.Combine(
-						context.FunctionAppDirectory,
-						"deutsch.txt"
+			return new OkObjectResult(
+				new Password(
+					new Words(
+						Path.Combine(
+							context.FunctionAppDirectory,
+							"deutsch.txt"
+						)
 					)
-				)
-			).Values(
-				count: 1,
-				wordCount: 3,
-				minWordLength: 3,
-				maxWordLength: 7,
-				maxTriesPerPassword: 256
+				).Values(
+					count: 1,
+					wordCount: 3,
+					minWordLength: 3,
+					maxWordLength: 7,
+					maxTriesPerPassword: 256
+				).First()
 			);
-
-			return new OkObjectResult(result.First());
 		}
 	}
 }

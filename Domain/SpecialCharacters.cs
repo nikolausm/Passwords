@@ -11,11 +11,8 @@ namespace Domain
 		{ }
 
 		public string Value()
-		{
-			var random = new Random(Guid.NewGuid().GetHashCode());
-			return random.Next() % 2 == 0
+		=> new Random(Guid.NewGuid().GetHashCode()).Next() % 2 == 0
 				? "?"
 				: "!";
-		}
 	}
 }
